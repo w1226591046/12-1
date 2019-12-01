@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: steelblue;
+            float: left;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        
+    </div>
+    <div class="box"></div>
+    <button id="btn">点击</button>
+    <script>
+        let boxs = document.querySelectorAll('.box')
+        console.log(boxs)
+        btn.onclick = function(){
+            boxs.forEach((ele)=>{
+                ele.style.background = 'red';
+            })
+        }
+        <script src="../jq/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./peng.js"></script>
+    <script>
+            let ary = [
+                {
+                    id:0,
+                    title:'新建文件夹'
+                },
+               
+            ]
+       function render(arr){
+        $('#box2').html('');
+        $.each(arr,(i,item)=>{
+            let $folder = $(
+                `
+            <div class="file-item active">
+            <img src="./img/folder-b.png" alt="" />
+            <span class="folder-name">${item.title}</span>
+            <input type="text" class="editor"/>
+        </div>`
+            );
+            $folder.find('input').hide();
+            $('#box2').append($folder);
+        })
+       }
+       render(ary);
+       $('#xin').click(function(ev){
+           let $fol = $(`
+           <div class="file-item active">
+            <img src="./img/folder-b.png" alt="" />
+            <input type="text" class="editor" value="新建文件夹"/>
+        </div>`);
+        $('#box2').append($fol);
+        let $txt = $fol.find('input');
+        $txt.select();
+        $txt.blur(function(){
+            let val = $txt.val();
+            let boo = ary.map(item=>item.title).includes(val);
+            let nval = '';
+            let num = 1;
+            nval = val;
+            while(boo){
+                let s = val.replace(/\(\d\)$/,'') + '('+ num++ +')';
+                boo = ary.map(item=>item.title).includes(s);
+                nval = s;
+            };
+            ary.push({
+                id:+new Date,
+                title:nval
+            });
+            render(ary);
+        });
+       });
+       class huaKuang{
+           constructor(id){
+               this.disX = this.disY = 0;
+               this.box = document.getElementById(id);
+               this.box2 = document.getElementById('box2');
+               console.log(box2);
+               this.shan = document.getElementById('shan')
+           };
+           init(){
+            this.box2.addEventListener('mousedown',this.d = this.down.bind(this));
+           };
+         
+           down(ev){
+                    this.ac = document.querySelectorAll('.active')
+                    let {left,top} = this.box.getBoundingClientRect();
+                    this.disX = ev.pageX;
+                    this.disY = ev.pageY;
+                    this.box.style.display = 'block';
+                    //按下的时候让box等于鼠标按下的位置
+                    this.box.style.left = this.disX;
+                    this.box.style.top = this.disY;
+                    document.addEventListener('mousemove',this.mo = this.move.bind(this));
+                    document.addEventListener('mouseup',this.u_p = this.up.bind(this));
+           };
+           move(ev){
+            this.box.style.left = Math.min(ev.pageX,this.disX)+'px';
+            this.box.style.top = Math.min(ev.pageY,this.disY)+'px';
+            this.box.style.width = Math.abs(ev.pageX-this.disX) + 'px';
+            this.box.style.height = Math.abs(ev.pageY-this.disY) + 'px';
+            let that = this;
+            this.ac.forEach((ele)=>{
+                if(peng(box3,ele)){
+                    ele.style.background = 'pink';
+                }else{
+                    ele.style.background = 'cornsilk';
+                } 
+            })
+            this.box2.onclick = function(){
+                that.ac.forEach((ele)=>{
+                    ele.style.background = 'cornsilk';
+                })
+            }
+            this.shan.onclick = function(){
+                that.ac.forEach((ele)=>{
+                    if(ele.style.background === 'pink'){
+                        ele.remove();
+                       
+                    }
+                })
+            }
+            return false;
+           };
+           up(){
+            this.box.style.height = this.box.style.width = 0;
+            this.box.style.display = 'none';
+            document.removeEventListener('mousemove',this.mo);
+            document.removeEventListener('mouseup',this.u_p);
+           };
+       }
+       let d = new huaKuang('box3');
+        d.init();
+    </script>
+    </script>
+</body>
+</html>

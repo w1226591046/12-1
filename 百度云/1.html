@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+         #box3{
+            width: 0;
+            height: 0;
+            background:rgba(0,0,0, .1);
+            border:1px solid #b0b0bb;
+            position: absolute;
+            left:0;
+            top:0;
+            display: none;
+        }
+      #box4{
+            width:100px;
+            height: 100px;
+            background: skyblue;
+            position: absolute;
+            top:300px;
+            left:500px;
+      }
+    </style>
+</head>
+<body>
+    <div id="box3"></div>
+    <div id="box4"></div>
+    <script src="./peng.js"></script>
+    <script>
+               let ac = document.querySelectorAll('#box4');
+       console.log(ac)
+       class huaKuang{
+           constructor(id){
+               this.disX = this.disY = 0;
+               this.box = document.getElementById(id);
+               console.log(this.box)
+           };
+           init(){
+               document.addEventListener('mousedown',this.d = this.down.bind(this));
+           };
+           down(ev){
+            let {left,top} = this.box.getBoundingClientRect();
+            this.disX = ev.pageX;
+            this.disY = ev.pageY;
+            this.box.style.display = 'block';
+            //按下的时候让box等于鼠标按下的位置
+            this.box.style.left = this.disX;
+            this.box.style.top = this.disY;
+            document.addEventListener('mousemove',this.mo = this.move.bind(this));
+            document.addEventListener('mouseup',this.u_p = this.up.bind(this));
+            // ev.preventDefault();
+           };
+           move(ev){
+            //    console.log(ev.pageX)
+            
+            this.box.style.left = Math.min(ev.pageX,this.disX)+'px';
+            this.box.style.top = Math.min(ev.pageY,this.disY)+'px';
+            this.box.style.width = Math.abs(ev.pageX-this.disX) + 'px';
+            this.box.style.height = Math.abs(ev.pageY-this.disY) + 'px';
+            ac.forEach(ele=>{
+                if(peng(box3,ele)){
+                    ele.style.background = 'pink';
+                }else{
+                    ele.style.background = 'skyblue';
+                } 
+            })
+            
+           };
+           up(){
+            this.box.style.height = this.box.style.width = 0;
+            this.box.style.display = 'none';
+            document.removeEventListener('mousemove',this.mo);
+            document.removeEventListener('mouseup',this.u_p);
+           };
+       }
+       let d = new huaKuang('box3');
+        d.init();
+    </script>
+</body>
+</html>
